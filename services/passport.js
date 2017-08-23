@@ -4,6 +4,18 @@ const keys = require('../config/keys');
 const mongoose = require('mongoose');
 
 const User = mongoose.model('users');
+
+passport.serializeUser((user, done) => {
+  //transform user.id to token to save to cookie
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  // decode cookie to id and then transform to system user???
+  User.findById(id).then(user => {
+    done(null, user);
+  });
+});
 passport.use(
   new GoogleStrategy(
     {
@@ -12,8 +24,18 @@ passport.use(
       callbackURL: '/auth/google/callback'
     },
     (accessToken, refreshToken, profile, done) => {
-      // New instance of User model
-      new User({ googleId: profile.id }).save();
+      User.findOne({ googleId: profile.id }).then(existingUser => {
+        if (existingUser) {
+          //user already exists
+          //done is for passport, its first params is error, second params is user
+          done(null, existingUser);
+        } else {
+          // New instance of User model
+          new User({ googleId: profile.id }).save().then(user => {
+            done(null, user);
+          });
+        }
+      });
     }
   )
 );
