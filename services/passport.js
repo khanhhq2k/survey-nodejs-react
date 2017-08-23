@@ -11,7 +11,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  // decode cookie to id and then transform to system user???
+  // turn id to system user
   User.findById(id).then(user => {
     done(null, user);
   });
