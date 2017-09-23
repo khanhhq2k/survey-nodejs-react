@@ -15,7 +15,7 @@ class Header extends Component {
       default:
         return (
           <li>
-            <a>Log Out</a>
+            <a href="/api/logout">Log Out</a>
           </li>
         );
     }
@@ -24,9 +24,7 @@ class Header extends Component {
     return (
       <nav>
         <div className="nav-wrapper">
-          <a href="#" className="left brand-logo">
-            Survey
-          </a>
+          <a className="left brand-logo">Survey</a>
           <ul id="nav-mobile" className="right">
             {this.renderContent()}
           </ul>
