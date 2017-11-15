@@ -27,6 +27,7 @@ app.use(passport.session());
 ///////////////////////////////////
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 //process.env.NODE_ENV set by heroku
 if (process.env.NODE_ENV === 'production') {
